@@ -16,7 +16,7 @@ const oneensRow = document.getElementById('oneensRow');
 console.log(subjects);
 
 //index keep track of subject index (starts at 0)
-var index = 1;
+var index = 0;
 var isOpen = false;
 var answers = [];
 
