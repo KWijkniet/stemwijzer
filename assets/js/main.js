@@ -12,7 +12,7 @@ const questionInfo = document.getElementById('questionInfo');
 console.log(subjects);
 
 //index keep track of subject index (starts at 0)
-var index = 0;
+var index = 1;
 var isOpen = false;
 
 //show intro will show the info page with the start button
