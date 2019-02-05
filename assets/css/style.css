@@ -266,3 +266,49 @@ transition: 0.15s all linear;
     transition: 0.15s all linear;
     color: white;
 }
+
+.question-button-skip{
+    position: relative;
+    display: inline-block;
+    margin: 15px;
+    background: transparent;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    min-height: 68px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    color: black;
+    transition: 0.15s all linear;
+}
+
+.question-button-skip:hover .question-icon {
+    transition: 0.15s all linear;
+    right: -15px;
+}
+
+.question-icon{
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translate(0, -50%);
+    transition: 0.15s all linear;
+}
+
+#partijen{
+    display: flex;
+    justify-content: space-between;
+    height: 0;
+    overflow-x: hidden;
+    transition: 0.15s all linear;
+    width: 100%;
+}
+
+#partijen div{
+    width: 28%;
+}
+
+#partijen div h6{
+    border-bottom: 2px solid black;
+}

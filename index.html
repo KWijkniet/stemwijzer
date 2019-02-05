@@ -75,7 +75,19 @@
                         <button onclick="NextQuestion('Eens')" class="btn question-btn">Eens</button>
                         <button onclick="NextQuestion('Geen van beide')" class="btn question-btn">Geen van beide</button>
                         <button onclick="NextQuestion('Oneens')" class="btn question-btn">Oneens</button>
-                        <button onclick="NextQuestion('')" class="btn question-button-skip">Sla deze vraag over</button>
+                        <button onclick="NextQuestion('')" class="btn question-button-skip">Sla deze vraag over <span class="question-icon">></span></button>
+                    </div>
+                    <h3 onclick="ToggleDropdown();">Wat vinden de partijen?</h3>
+                    <div id="partijen">
+                        <div>
+                            <h6>Eens</h6>
+                        </div>
+                        <div>
+                            <h6>Geen van beide</h6>
+                        </div>
+                        <div>
+                            <h6>Oneens</h6>
+                        </div>
                     </div>
                 </div>
             </div>
