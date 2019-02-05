@@ -62,11 +62,15 @@ body{
     font-weight: 700;
 }
 
+.partners-logo-container{
+    position: relative;
+}
+
 .partners-logo{
     width: 173px;
     height: 36px;
-    position: relative;
-    left: 42px;
+    position: absolute;
+    right: 10px;
 }
 
 .row:first-child{
@@ -185,7 +189,7 @@ transition: 0.15s all linear;
     background-color: white;
     /* margin: 84px 125.5px 0px 125.5px; */
     margin: 84px 0px 0px -50px;
-    height: 760.2px;
+    height: auto;
     width: calc(100% + 50px);
 }
 
@@ -303,6 +307,8 @@ transition: 0.15s all linear;
     overflow-x: hidden;
     transition: 0.15s all linear;
     width: 100%;
+    margin-bottom: 15px;
+    overflow: hidden;
 }
 
 #partijen div{
