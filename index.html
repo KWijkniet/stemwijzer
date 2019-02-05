@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Stemwijzer</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+
+        <script type="text/javascript" src="http://stemwijzer.dvc-icta.nl/data.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron jumbotron-fluid page" id="intro">
+                <div class="main">
+                    <a href="#" class="logo"></a>
+                    <div class="main-subtitle">Stemwijzer Tweede Kamer 2017</div>
+                    <h2 class="main-info">Test uw politieke voorkeur aan de hand van 30 stellingen</h2>
+                    <button class="btn main-btn" onclick="ShowQuestion();">Start</button>
+                    <a class="main-extra" href="https://tweedekamer2017.stemwijzer.nl/xsable/">Bekijk de toegankelijke versie voor mensen met een visuele beperking</a>
+                    <a class="main-extra" href="https://tweedekamer2017.stemwijzer.nl/privacy.html" target="_blank">De StemWijzer maakt geen gebruik van cookies. Klik hier voor de volledige privacy statement</a>
+                    <div class="main-footer">
+                        <h2 class="main-footer-title">
+							<a href="https://www.stemmentracker.nl/" target="_blank">
+								<img src="https://tweedekamer2017.stemwijzer.nl/public/gfx/logo-stemmentracker.svg">
+                            </a>
+						</h2>
+                        <p class="main-footer-info">Wat hebben de partijen in het verleden waargemaakt van hun verkiezingsbeloften? 'Track' uw stem met de Stemmentracker, een website die terugblikt op 30 Tweede Kamerstemmingen van de afgelopen regeerperiode. Met welke partij stemde u mee?</p>
+                    </div>
+                </div>
+                <div class="sidebar">
+                    <div class="row">
+                        <img class="partners-logo" src="assets/img/logo-1v.svg">
+                    </div>
+                    <h3 class="partners-title">Deze partijen doen mee</h3>
+                    <div class="row">
+                        <div class="partners-list">
+                            <div class="partners-item">
+                                <a href="http://vvd.nl" target="_blank">
+									<img title="VVD" class="party__logo" alt="VVD" src="https://tweedekamer2017.stemwijzer.nl/logos/vvd.svg">
+								</a>
+                            </div>
+                            <div class="partners-item">
+                                <a href="http://vvd.nl" target="_blank">
+									<img title="VVD" class="party__logo" alt="VVD" src="https://tweedekamer2017.stemwijzer.nl/logos/vvd.svg">
+								</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="partners-title">Deze partijen doen niet mee</h3>
+                    <div class="row">
+                        <div class="partners-list">
+                            <div class="partners-item">
+                                <a href="http://vvd.nl" target="_blank">
+									<img title="VVD" class="party__logo" alt="VVD" src="https://tweedekamer2017.stemwijzer.nl/logos/vvd.svg">
+								</a>
+                            </div>
+                            <div class="partners-item">
+                                <a href="http://vvd.nl" target="_blank">
+									<img title="VVD" class="party__logo" alt="VVD" src="https://tweedekamer2017.stemwijzer.nl/logos/vvd.svg">
+								</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="jumbotron jumbotron-fluid page" id="question">
+                <button onclick="PrevQuestion()" class="btn question-button-prev"></button>
+                <div class="questions-content">
+                    <h1 id='questionTitle'></h1>
+                    <p id='questionInfo'></p>
+                    <div class="question-buttons">
+                        <button onclick="NextQuestion('Eens')" class="btn question-btn">Eens</button>
+                        <button onclick="NextQuestion('Geen van beide')" class="btn question-btn">Geen van beide</button>
+                        <button onclick="NextQuestion('Oneens')" class="btn question-btn">Oneens</button>
+                        <button onclick="NextQuestion('')" class="btn question-button-skip">Sla deze vraag over</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="assets/js/main.js"></script>
+    </body>
+</html>
