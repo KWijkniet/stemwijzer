@@ -18,7 +18,7 @@
                     <a href="#" class="logo"></a>
                     <div class="main-subtitle">Stemwijzer Tweede Kamer 2017</div>
                     <h2 class="main-info">Test uw politieke voorkeur aan de hand van 30 stellingen</h2>
-                    <button class="btn main-btn" onclick="ShowQuestion();">Start</button>
+                    <button class="btn main-btn" onclick="StartQuiz();">Start</button>
                     <a class="main-extra" href="https://tweedekamer2017.stemwijzer.nl/xsable/">Bekijk de toegankelijke versie voor mensen met een visuele beperking</a>
                     <a class="main-extra" href="https://tweedekamer2017.stemwijzer.nl/privacy.html" target="_blank">De StemWijzer maakt geen gebruik van cookies. Klik hier voor de volledige privacy statement</a>
                     <div class="main-footer">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="sidebar">
-                    <div class="row">
+                    <div class="row partners-logo-container">
                         <img class="partners-logo" src="assets/img/logo-1v.svg">
                     </div>
                     <h3 class="partners-title">Deze partijen doen mee</h3>
@@ -81,15 +81,21 @@
                     <div id="partijen">
                         <div>
                             <h6>Eens</h6>
+                            <ul id="eensRow"></ul>
                         </div>
                         <div>
                             <h6>Geen van beide</h6>
+                            <ul id="noneRow"></ul>
                         </div>
                         <div>
                             <h6>Oneens</h6>
+                            <ul id="oneensRow"></ul>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="jumbotron jumbotron-fluid page" id="result">
+                <h1>results:</h1>
             </div>
         </div>
         <script type="text/javascript" src="assets/js/main.js"></script>
