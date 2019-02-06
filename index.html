@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>Stemwijzer</title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
@@ -13,6 +12,7 @@
     </head>
     <body>
         <div class="container">
+
             <div class="jumbotron jumbotron-fluid page" id="intro">
                 <div class="main">
                     <a href="#" class="logo"></a>
@@ -66,18 +66,23 @@
                     </div>
                 </div>
             </div>
+
+            <div id="myProgress">
+                <div id="myBar"></div>
+            </div>
+
             <div class="jumbotron jumbotron-fluid page" id="question">
                 <button onclick="PrevQuestion()" class="btn question-button-prev"></button>
                 <div class="questions-content">
-                    <h1 id='questionTitle'></h1>
-                    <p id='questionInfo'></p>
+                    <h1 class="questionTitle" id='questionTitle'></h1>
+                    <p class="questionInfo" id='questionInfo'></p>
                     <div class="question-buttons">
                         <button onclick="NextQuestion('Eens')" class="btn question-btn">Eens</button>
                         <button onclick="NextQuestion('Geen van beide')" class="btn question-btn">Geen van beide</button>
                         <button onclick="NextQuestion('Oneens')" class="btn question-btn">Oneens</button>
                         <button onclick="NextQuestion('')" class="btn question-button-skip">Sla deze vraag over <span class="question-icon">></span></button>
                     </div>
-                    <h3 onclick="ToggleDropdown();">Wat vinden de partijen?</h3>
+                    <h3 onclick="ToggleDropdown();" style="cursor: pointer;">Wat vinden de partijen?</h3>
                     <div id="partijen">
                         <div>
                             <h6>Eens</h6>
@@ -94,8 +99,18 @@
                     </div>
                 </div>
             </div>
+
+            <div class="jumbotron jumbotron-fluid page" id="priority">
+                <button onclick="PrevQuestion()" class="btn question-button-prev"></button>
+                <div class="questions-content">
+                    <h1 class="questionTitle">Zijn er onderwerpen die u extra belangrijk vindt?</h1>
+                    <p class="questionInfo">Aangevinkte stellingen tellen extra mee bij het berekenen van het resulaat.</p>
+                    <button class="btn main-btn" onclick="">Start</button>
+                    <div id="priority-container" style="clear:both;"></div>
+                </div>
+            </div>
+
             <div class="jumbotron jumbotron-fluid page" id="result">
-                <h1>results:</h1>
             </div>
         </div>
         <script type="text/javascript" src="assets/js/main.js"></script>
