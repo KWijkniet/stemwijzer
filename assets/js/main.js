@@ -1,5 +1,6 @@
 //show subjects in console (just a test)
 console.log(subjects);
+console.log(parties);
 
 //Get pages (requires to have "display:none;" as default)
 const introElem = document.getElementById('intro');
@@ -8,6 +9,7 @@ const resultElem = document.getElementById('result');
 const partijenElem = document.getElementById('partijen');
 const priority = document.getElementById('priority');
 const myProgress = document.getElementById('myProgress');
+const partiesElem = document.getElementById('parties');
 
 //party rows in dropdown
 const eensRow = document.getElementById('eensRow');
@@ -18,8 +20,9 @@ const oneensRow = document.getElementById('oneensRow');
 var questionTitle = document.getElementById('questionTitle');
 var questionInfo = document.getElementById('questionInfo');
 
-//priority elements
+//option elements
 var priorityList = document.getElementById('priority-container');
+var partiesContainerList = document.getElementById('parties-container');
 
 //progress bar
 var progressBar = document.getElementById('myBar');
@@ -40,7 +43,7 @@ function ShowIntro(){
 
 //start questions
 function StartQuiz(){
-    progressBar.style.width = (100 / (subjects.length + 2) * 1) + "%";
+    progressBar.style.width = (100 / (subjects.length + 3) * 1) + "%";
     index = 0;
     ShowQuestion();
 }
@@ -52,6 +55,17 @@ function ShowQuestion(){
     HidePages();
     questionElem.style.display = 'block';
     myProgress.style.display = 'block';
+
+    document.getElementById('Eens').classList.remove("active");
+    document.getElementById('Geen van beide').classList.remove("active");
+    document.getElementById('Oneens').classList.remove("active");
+
+    console.log("checking");
+    if(answers.length >= index && answers[index] != undefined && answers[index].answer != ''){
+        console.log(answers[index].answer);
+        var button = document.getElementById(answers[index].answer);
+        button.classList.add("active");
+    }
 
     //show question data on the page
     questionTitle.innerHTML = (index + 1) + ". " + subjects[index].title;
@@ -78,7 +92,7 @@ function NextQuestion(value){
     };
     answers[index] = row;
 
-    progressBar.style.width = (100 / (subjects.length + 2) * (index + 2)) + "%";
+    progressBar.style.width = (100 / (subjects.length + 3) * (index + 2)) + "%";
 
     //increase index
     index++;
@@ -96,7 +110,7 @@ function PrevQuestion(){
     //decrease index
     index--;
 
-    progressBar.style.width = (100 / (subjects.length + 2) * (index + 1)) + "%";
+    progressBar.style.width = (100 / (subjects.length + 3) * (index + 1)) + "%";
     //if index is smaller then 0. then show the start page. else show the previous question
     if(index < 0){
         ShowIntro();
@@ -141,6 +155,7 @@ function GeneratePartyVotes(){
 }
 
 function GeneratePriorityList(){
+    progressBar.style.width = (100 / (subjects.length + 3) * (index + 1)) + "%";
     HidePages();
     priority.style.display = 'block';
     myProgress.style.display = 'block';
@@ -152,10 +167,36 @@ function GeneratePriorityList(){
     }
 }
 
+function SetPriority(){
+    progressBar.style.width = (100 / (subjects.length + 3) * (index + 2)) + "%";
+    var childs = priorityList.getElementsByTagName('input');
+    for(var i = 0; i < childs.length; i++){
+        if(childs[i].checked){
+            answers[i].priority = 1;
+        }
+    }
+    HidePages();
+    partiesElem.style.display = 'block';
+    myProgress.style.display = 'block';
+
+    partiesContainerList.innerHTML = '';
+    for(var i = 0; i < parties.length; i++){
+        if(parties[i].size > 0){
+            var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' value='" + i + "'><span class='checkmark'></span></label>";
+            partiesContainerList.innerHTML += html;
+        }
+    }
+}
+
+function SetPartiesList(){
+
+}
+
 function HidePages(){
     introElem.style.display = 'none';
     questionElem.style.display = 'none';
     resultElem.style.display = 'none';
     priority.style.display = 'none';
     myProgress.style.display = 'none';
+    partiesElem.style.display = 'none';
 }

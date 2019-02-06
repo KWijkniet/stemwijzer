@@ -77,10 +77,10 @@
                     <h1 class="questionTitle" id='questionTitle'></h1>
                     <p class="questionInfo" id='questionInfo'></p>
                     <div class="question-buttons">
-                        <button onclick="NextQuestion('Eens')" class="btn question-btn">Eens</button>
-                        <button onclick="NextQuestion('Geen van beide')" class="btn question-btn">Geen van beide</button>
-                        <button onclick="NextQuestion('Oneens')" class="btn question-btn">Oneens</button>
-                        <button onclick="NextQuestion('')" class="btn question-button-skip">Sla deze vraag over <span class="question-icon">></span></button>
+                        <button id='Eens' onclick="NextQuestion('Eens')" class="btn question-btn">Eens</button>
+                        <button id='Geen van beide' onclick="NextQuestion('Geen van beide')" class="btn question-btn">Geen van beide</button>
+                        <button id='Oneens' onclick="NextQuestion('Oneens')" class="btn question-btn">Oneens</button>
+                        <button id='' onclick="NextQuestion('')" class="btn question-button-skip">Sla deze vraag over <span class="question-icon">></span></button>
                     </div>
                     <h3 onclick="ToggleDropdown();" style="cursor: pointer;">Wat vinden de partijen?</h3>
                     <div id="partijen">
@@ -105,8 +105,18 @@
                 <div class="questions-content">
                     <h1 class="questionTitle">Zijn er onderwerpen die u extra belangrijk vindt?</h1>
                     <p class="questionInfo">Aangevinkte stellingen tellen extra mee bij het berekenen van het resulaat.</p>
-                    <button class="btn main-btn" onclick="">Start</button>
+                    <button class="btn main-btn" onclick="SetPriority()">Calculate</button>
                     <div id="priority-container" style="clear:both;"></div>
+                </div>
+            </div>
+
+            <div class="jumbotron jumbotron-fluid page" id="parties">
+                <button onclick="PrevQuestion()" class="btn question-button-prev"></button>
+                <div class="questions-content">
+                    <h1 class="questionTitle">Welke partijen wilt u meenemen in het resultaat?</h1>
+                    <p class="questionInfo">U kunt kiezen voor zittende partijen, die nu in de Tweede Kamer vertegenwoordigd zijn. Daarbij nemen we ook de partijen mee die in de peilingen op minimaal één zetel staan. U kunt alle partijen meenemen en u kunt een eigen selectie maken van tenminste drie partijen.</p>
+                    <button class="btn main-btn" onclick="SetPartiesList()">Calculate</button>
+                    <div id="parties-container" style="clear:both;"></div>
                 </div>
             </div>
 

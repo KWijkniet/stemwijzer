@@ -185,9 +185,8 @@ transition: 0.15s all linear;
 
 }
 
-#question, #priority{
+#question, #priority, #parties{
     background-color: white;
-    /* margin: 84px 125.5px 0px 125.5px; */
     margin: 84px 0px 0px -50px;
     height: auto;
     width: calc(100% + 50px);
@@ -268,6 +267,10 @@ transition: 0.15s all linear;
     background-color: #018aa9;
     transition: 0.15s all linear;
     color: white;
+}
+
+.question-buttons .active{
+    background-color: #018aa9 !important;
 }
 
 .question-button-skip{
@@ -378,7 +381,8 @@ transition: 0.15s all linear;
   -ms-user-select: none !important;
   user-select: none !important;
   width: 40%;
-  margin-right: 10%;
+  margin-right: 5%;
+  margin-left: 5%;
   border-bottom: 1px solid black;
 }
 
@@ -438,7 +442,7 @@ transition: 0.15s all linear;
   transform: rotate(45deg) !important;
 }
 
-#priority-container{
+#priority-container, #parties-container{
     display: flex;
     flex-wrap: wrap;
     margin: 150px -125px -14px -125px;
