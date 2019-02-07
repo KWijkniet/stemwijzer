@@ -1,6 +1,6 @@
 //show subjects in console (just a test)
-console.log(subjects);
-console.log(parties);
+// console.log(subjects);
+// console.log(parties);
 
 //Get pages (requires to have "display:none;" as default)
 const introElem = document.getElementById('intro');
@@ -60,9 +60,7 @@ function ShowQuestion(){
     document.getElementById('Geen van beide').classList.remove("active");
     document.getElementById('Oneens').classList.remove("active");
 
-    console.log("checking");
     if(answers.length >= index && answers[index] != undefined && answers[index].answer != ''){
-        console.log(answers[index].answer);
         var button = document.getElementById(answers[index].answer);
         button.classList.add("active");
     }
@@ -88,7 +86,8 @@ function NextQuestion(value){
         'title': subjects[index].title,
         'statement': subjects[index].statement,
         'answer': value,
-        'priority': 0
+        'priority': 0,
+        'parties': GetPartiesWithSameAnswer(value)
     };
     answers[index] = row;
 
@@ -179,6 +178,10 @@ function SetPriority(){
     partiesElem.style.display = 'block';
     myProgress.style.display = 'block';
 
+    parties.sort(function(a, b) {
+        return b.size - a.size;
+    });
+
     partiesContainerList.innerHTML = '';
     for(var i = 0; i < parties.length; i++){
         if(parties[i].size > 0){
@@ -189,7 +192,54 @@ function SetPriority(){
 }
 
 function SetPartiesList(){
+    var childs = partiesContainerList.getElementsByTagName('input');
+    var results = [];
+    for(var i = childs.length - 1; i >= 0; i--){
+        if(childs[i].checked){
+            results.push(parties[i]);
+            results[results.length - 1].score = 0;
+        }
+    }
+    CalculateResults(results);
+}
 
+function CalculateResults(list){
+    for(var q = 0; q < list.length; q++){
+        for(var i = 0; i < answers.length; i++){
+            var answer = answers[i];
+            for(var r = 0; r < answer.parties.length; r++){
+                var partie = answer.parties[r];
+                if(partie == list[q].name){
+                    if(answer.priority == 1){
+                        list[q].score += 2;
+                    }else{
+                        list[q].score += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    list.sort(function(a, b) {
+        return b.score - a.score;
+    });
+    console.log(list);
+    //calculate scores (if same answer per question = +1 and if that question had priority do +1 extra)
+    //show list based on score (highest to lowest)
+    HidePages();
+    result.style.display = 'block';
+}
+
+function GetPartiesWithSameAnswer(value){
+    var arr = [];
+    var answer = value == 'Eens' ? 'pro' : value == 'Oneens' ? 'contra' : value == 'Geen van beide' ? 'ambivalent' : "";
+    for(var i = 0; i < subjects[index].parties.length; i++){
+        var party = subjects[index].parties[i];
+        if(party.position == answer){
+            arr.push(party.name);
+        }
+    }
+    return arr;
 }
 
 function HidePages(){
