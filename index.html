@@ -111,16 +111,27 @@
             </div>
 
             <div class="jumbotron jumbotron-fluid page" id="parties">
-                <button onclick="PrevQuestion()" class="btn question-button-prev"></button>
+                <button onclick="ShowPriority()" class="btn question-button-prev"></button>
                 <div class="questions-content">
                     <h1 class="questionTitle">Welke partijen wilt u meenemen in het resultaat?</h1>
                     <p class="questionInfo">U kunt kiezen voor zittende partijen, die nu in de Tweede Kamer vertegenwoordigd zijn. Daarbij nemen we ook de partijen mee die in de peilingen op minimaal één zetel staan. U kunt alle partijen meenemen en u kunt een eigen selectie maken van tenminste drie partijen.</p>
-                    <button class="btn main-btn" onclick="SetPartiesList()">Calculate</button>
+                    <!-- <button class="btn main-btn" onclick="SetPartiesList()">Calculate</button> -->
+                    <div class="question-buttons">
+                        <button class="btn question-btn" onclick="SelectBigParties()">Grote Partijen</button>
+                        <button class="btn question-btn" onclick="SelectSecularParties()">Seculiere Partijen</button>
+                        <button class="btn question-btn" onclick="SetPartiesList()">Calculate</button>
+                    </div>
                     <div id="parties-container" style="clear:both;"></div>
                 </div>
             </div>
 
             <div class="jumbotron jumbotron-fluid page" id="result">
+                <button onclick="ShowParties()" class="btn question-button-prev"></button>
+                <div class="questions-content">
+                    <h1 class="questionTitle">Uw mening komt het best overeen met:</h1>
+                    <p class="questionInfo" id="firstResult"></p>
+                    <div id="results-container" style="clear:both;"></div>
+                </div>
             </div>
         </div>
         <script type="text/javascript" src="assets/js/main.js"></script>

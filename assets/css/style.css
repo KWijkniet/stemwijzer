@@ -185,7 +185,7 @@ transition: 0.15s all linear;
 
 }
 
-#question, #priority, #parties{
+#question, #priority, #parties, #result{
     background-color: white;
     margin: 84px 0px 0px -50px;
     height: auto;
@@ -442,7 +442,7 @@ transition: 0.15s all linear;
   transform: rotate(45deg) !important;
 }
 
-#priority-container, #parties-container{
+#priority-container, #parties-container, #results-container{
     display: flex;
     flex-wrap: wrap;
     margin: 150px -125px -14px -125px;

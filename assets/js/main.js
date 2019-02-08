@@ -1,6 +1,6 @@
 //show subjects in console (just a test)
-// console.log(subjects);
-// console.log(parties);
+console.log(subjects);
+console.log(parties);
 
 //Get pages (requires to have "display:none;" as default)
 const introElem = document.getElementById('intro');
@@ -28,10 +28,19 @@ var partiesContainerList = document.getElementById('parties-container');
 var progressBar = document.getElementById('myBar');
 progressBar.style.width = (100 / (subjects.length + 2) * 1) + "%";
 
+//result view
+var firstResult = document.getElementById('firstResult');
+var resultsContainer = document.getElementById('results-container');
+
 //index keep track of subjects index (starts at 0)
 var index = 0;
+//toggle variables
 var isOpen = false;
+var showBigParties = false;
+var showSecularParties = false;
+//store needed data in arrays
 var answers = [];
+var results = [];
 
 //show intro will show the info page with the start button
 ShowIntro();
@@ -72,12 +81,31 @@ function ShowQuestion(){
     GeneratePartyVotes();
 }
 
-//shows end page with the result
-function ShowEnd(){
-    //hide questions page and show intro page
+
+//change page to show parties page
+function ShowPriority(){
     HidePages();
-    resultElem.style.display = 'block';
+    priority.style.display = 'block';
     myProgress.style.display = 'block';
+    progressBar.style.width = (100 / (subjects.length + 4) * (index + 2)) + "%";
+}
+
+//change page to show parties page
+function ShowParties(){
+    HidePages();
+    partiesElem.style.display = 'block';
+    myProgress.style.display = 'block';
+    progressBar.style.width = (100 / (subjects.length + 3) * (index + 2)) + "%";
+}
+
+//hide all pages (so i dont need to copy this code over and over again)
+function HidePages(){
+    introElem.style.display = 'none';
+    questionElem.style.display = 'none';
+    priority.style.display = 'none';
+    myProgress.style.display = 'none';
+    partiesElem.style.display = 'none';
+    resultElem.style.display = 'none';
 }
 
 //public function for the next button
@@ -153,81 +181,123 @@ function GeneratePartyVotes(){
     }
 }
 
+//generate priority options list
 function GeneratePriorityList(){
+    //update progress bar
     progressBar.style.width = (100 / (subjects.length + 3) * (index + 1)) + "%";
+    //show correct page
     HidePages();
     priority.style.display = 'block';
     myProgress.style.display = 'block';
 
+    //fill the priority list with checkboxes
     priorityList.innerHTML = '';
     for(var i = 0; i < subjects.length; i++){
-        var html = "<label class='checkbox-container'>" + subjects[i].title + "<input type='checkbox' value='" + i + "'><span class='checkmark'></span></label>";
-        priorityList.innerHTML += html;
+        //check if already has been selected. if so then show as checked
+        if(answers[i].priority == 1){
+            var html = "<label class='checkbox-container'>" + subjects[i].title + "<input type='checkbox' checked value='" + i + "'><span class='checkmark'></span></label>";
+            priorityList.innerHTML += html;
+        }else{
+            var html = "<label class='checkbox-container'>" + subjects[i].title + "<input type='checkbox' value='" + i + "'><span class='checkmark'></span></label>";
+            priorityList.innerHTML += html;
+        }
     }
 }
 
 function SetPriority(){
+    //update progress bar
     progressBar.style.width = (100 / (subjects.length + 3) * (index + 2)) + "%";
+    //get child objects and loop through them. of checked then update priority value
     var childs = priorityList.getElementsByTagName('input');
     for(var i = 0; i < childs.length; i++){
         if(childs[i].checked){
             answers[i].priority = 1;
+        }else{
+            answer[i].priority = 0;
         }
     }
+
+    //show correct page
     HidePages();
     partiesElem.style.display = 'block';
     myProgress.style.display = 'block';
 
+    //sort parties list by "size" value (hight to low)
     parties.sort(function(a, b) {
         return b.size - a.size;
     });
 
+    //generate parties option list
     partiesContainerList.innerHTML = '';
     for(var i = 0; i < parties.length; i++){
         if(parties[i].size > 0){
-            var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' value='" + i + "'><span class='checkmark'></span></label>";
-            partiesContainerList.innerHTML += html;
+            //if already checked before then show as checked again
+            if(results[i] != undefined){
+                var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' checked value='" + i + "'><span class='checkmark'></span></label>";
+                partiesContainerList.innerHTML += html;
+            }else{
+                var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' value='" + i + "'><span class='checkmark'></span></label>";
+                partiesContainerList.innerHTML += html;
+            }
         }
     }
 }
 
+//store selected parties
 function SetPartiesList(){
+    //get parent container
     var childs = partiesContainerList.getElementsByTagName('input');
-    var results = [];
+    //loop through child objects
     for(var i = childs.length - 1; i >= 0; i--){
         if(childs[i].checked){
-            results.push(parties[i]);
-            results[results.length - 1].score = 0;
+            //add to results list and preset score value
+            if(results[i] == undefined){
+                results.push(parties[i]);
+                results[results.length - 1].score = 0;
+            }else{
+                results[i] = parties[i];
+                results[i].score = 0;
+            }
         }
     }
-    CalculateResults(results);
+    CalculateResults();
 }
 
-function CalculateResults(list){
-    for(var q = 0; q < list.length; q++){
+function CalculateResults(){
+    //calculate scores (if same answer per question = +1 and if that question had priority do +1 extra)
+    for(var q = 0; q < results.length; q++){
         for(var i = 0; i < answers.length; i++){
             var answer = answers[i];
             for(var r = 0; r < answer.parties.length; r++){
                 var partie = answer.parties[r];
-                if(partie == list[q].name){
+                if(partie == results[q].name){
                     if(answer.priority == 1){
-                        list[q].score += 2;
+                        results[q].score += 2;
                     }else{
-                        list[q].score += 1;
+                        results[q].score += 1;
                     }
                 }
             }
         }
     }
 
-    list.sort(function(a, b) {
+    //show list based on score (highest to lowest)
+    results.sort(function(a, b) {
         return b.score - a.score;
     });
-    console.log(list);
-    //calculate scores (if same answer per question = +1 and if that question had priority do +1 extra)
-    //show list based on score (highest to lowest)
     HidePages();
     result.style.display = 'block';
+    progressBar.style.display = 'block';
+    progressBar.style.width = (100 / (subjects.length + 2) * (index + 2)) + "%";
+
+    firstResult.innerHTML = results[0].name + " (" + results[0].score + " punten)";
+    resultsContainer.innerHTML = "";
+    for(var i = 0; i < results.length; i++){
+        if(results[i].score > 0 && i != 0){
+            var html = "<p>" + results[i].name + " (" + results[i].score + " punten)</p>";
+            resultsContainer.innerHTML += html;
+        }
+    }
 }
 
 function GetPartiesWithSameAnswer(value){
@@ -242,11 +312,56 @@ function GetPartiesWithSameAnswer(value){
     return arr;
 }
 
-function HidePages(){
-    introElem.style.display = 'none';
-    questionElem.style.display = 'none';
-    resultElem.style.display = 'none';
-    priority.style.display = 'none';
-    myProgress.style.display = 'none';
-    partiesElem.style.display = 'none';
+//select either all big parties or small parties
+function SelectBigParties(){
+    //toggle boolean
+    showBigParties = !showBigParties;
+    //get parent container of all party checkboxes
+    var childs = partiesContainerList.getElementsByTagName('input');
+    //loop through all child objects
+    for(var i = childs.length - 1; i >= 0; i--){
+        //check toggle value
+        if(showBigParties){
+            //check all except when size is smaller or equal then 14 (small party)
+            if(parties[i] != undefined && parties[i].size > 14){
+                childs[i].checked = true;
+            }else{
+                childs[i].checked = false;
+            }
+        }else{
+            //check all except when size is larger then 14 (big party)
+            if(parties[i] != undefined && parties[i].size <= 14){
+                childs[i].checked = true;
+            }else{
+                childs[i].checked = false;
+            }
+        }
+    }
+}
+
+//select either all secular parties or non secular parties
+function SelectSecularParties(){
+    //toggle boolean
+    showSecularParties = !showSecularParties;
+    //get parent container of all party checkboxes
+    var childs = partiesContainerList.getElementsByTagName('input');
+    //loop through all child objects
+    for(var i = childs.length - 1; i >= 0; i--){
+        //check toggle value
+        if(showSecularParties){
+            //check all except if they are non secular
+            if(parties[i] != undefined && parties[i].secular){
+                childs[i].checked = true;
+            }else{
+                childs[i].checked = false;
+            }
+        }else{
+            //check all except if they are secular
+            if(parties[i] != undefined && !parties[i].secular){
+                childs[i].checked = true;
+            }else{
+                childs[i].checked = false;
+            }
+        }
+    }
 }
