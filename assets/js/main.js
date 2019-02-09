@@ -146,6 +146,20 @@ function PrevQuestion(){
     }
 }
 
+//find all parties with same answer as your answer
+function GetPartiesWithSameAnswer(value){
+    var arr = [];
+    //convert Eens to pro and Oneens to contra and Geen van beide to ambivalent
+    var answer = value == 'Eens' ? 'pro' : value == 'Oneens' ? 'contra' : value == 'Geen van beide' ? 'ambivalent' : "";
+    for(var i = 0; i < subjects[index].parties.length; i++){
+        var party = subjects[index].parties[i];
+        if(party.position == answer){
+            arr.push(party.name);
+        }
+    }
+    return arr;
+}
+
 //toggle party votes dropdown
 function ToggleDropdown(){
     isOpen = !isOpen;
@@ -243,75 +257,6 @@ function SetPriority(){
     }
 }
 
-//store selected parties
-function SetPartiesList(){
-    //get parent container
-    var childs = partiesContainerList.getElementsByTagName('input');
-    //loop through child objects
-    for(var i = childs.length - 1; i >= 0; i--){
-        if(childs[i].checked){
-            //add to results list and preset score value
-            if(results[i] == undefined){
-                results.push(parties[i]);
-                results[results.length - 1].score = 0;
-            }else{
-                results[i] = parties[i];
-                results[i].score = 0;
-            }
-        }
-    }
-    CalculateResults();
-}
-
-function CalculateResults(){
-    //calculate scores (if same answer per question = +1 and if that question had priority do +1 extra)
-    for(var q = 0; q < results.length; q++){
-        for(var i = 0; i < answers.length; i++){
-            var answer = answers[i];
-            for(var r = 0; r < answer.parties.length; r++){
-                var partie = answer.parties[r];
-                if(partie == results[q].name){
-                    if(answer.priority == 1){
-                        results[q].score += 2;
-                    }else{
-                        results[q].score += 1;
-                    }
-                }
-            }
-        }
-    }
-
-    //show list based on score (highest to lowest)
-    results.sort(function(a, b) {
-        return b.score - a.score;
-    });
-    HidePages();
-    result.style.display = 'block';
-    progressBar.style.display = 'block';
-    progressBar.style.width = (100 / (subjects.length + 2) * (index + 2)) + "%";
-
-    firstResult.innerHTML = results[0].name + " (" + results[0].score + " punten)";
-    resultsContainer.innerHTML = "";
-    for(var i = 0; i < results.length; i++){
-        if(results[i].score > 0 && i != 0){
-            var html = "<p>" + results[i].name + " (" + results[i].score + " punten)</p>";
-            resultsContainer.innerHTML += html;
-        }
-    }
-}
-
-function GetPartiesWithSameAnswer(value){
-    var arr = [];
-    var answer = value == 'Eens' ? 'pro' : value == 'Oneens' ? 'contra' : value == 'Geen van beide' ? 'ambivalent' : "";
-    for(var i = 0; i < subjects[index].parties.length; i++){
-        var party = subjects[index].parties[i];
-        if(party.position == answer){
-            arr.push(party.name);
-        }
-    }
-    return arr;
-}
-
 //select either all big parties or small parties
 function SelectBigParties(){
     //toggle boolean
@@ -362,6 +307,67 @@ function SelectSecularParties(){
             }else{
                 childs[i].checked = false;
             }
+        }
+    }
+}
+
+//store selected parties
+function SetPartiesList(){
+    //get parent container
+    var childs = partiesContainerList.getElementsByTagName('input');
+    //loop through child objects
+    for(var i = childs.length - 1; i >= 0; i--){
+        if(childs[i].checked){
+            //add to results list and preset score value
+            if(results[i] == undefined){
+                results.push(parties[i]);
+                results[results.length - 1].score = 0;
+            }else{
+                results[i] = parties[i];
+                results[i].score = 0;
+            }
+        }
+    }
+    CalculateResults();
+}
+
+function CalculateResults(){
+    //calculate scores (if same answer per question = +1 and if that question had priority do +1 extra)
+    for(var q = 0; q < results.length; q++){
+        for(var i = 0; i < answers.length; i++){
+            var answer = answers[i];
+            for(var r = 0; r < answer.parties.length; r++){
+                var partie = answer.parties[r];
+                if(partie == results[q].name){
+                    if(answer.priority == 1){
+                        results[q].score += 2;
+                    }else{
+                        results[q].score += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    //show list based on score (highest to lowest)
+    results.sort(function(a, b) {
+        return b.score - a.score;
+    });
+
+    //show correct page
+    HidePages();
+    result.style.display = 'block';
+    progressBar.style.display = 'block';
+    progressBar.style.width = (100 / (subjects.length + 2) * (index + 2)) + "%";
+
+    //show selected party (result)
+    firstResult.innerHTML = results[0].name + " (" + results[0].score + " punten)";
+    //clear container and then fill with parties based on score (highest to lowest)
+    resultsContainer.innerHTML = "";
+    for(var i = 0; i < results.length; i++){
+        if(results[i].score > 0 && i != 0){
+            var html = "<p>" + results[i].name + " (" + results[i].score + " punten)</p>";
+            resultsContainer.innerHTML += html;
         }
     }
 }
