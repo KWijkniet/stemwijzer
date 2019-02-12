@@ -227,7 +227,7 @@ function SetPriority(){
         if(childs[i].checked){
             answers[i].priority = 1;
         }else{
-            answer[i].priority = 0;
+            answers[i].priority = 0;
         }
     }
 
@@ -244,15 +244,13 @@ function SetPriority(){
     //generate parties option list
     partiesContainerList.innerHTML = '';
     for(var i = 0; i < parties.length; i++){
-        if(parties[i].size > 0){
-            //if already checked before then show as checked again
-            if(results[i] != undefined){
-                var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' checked value='" + i + "'><span class='checkmark'></span></label>";
-                partiesContainerList.innerHTML += html;
-            }else{
-                var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' value='" + i + "'><span class='checkmark'></span></label>";
-                partiesContainerList.innerHTML += html;
-            }
+        //if already checked before then show as checked again
+        if(results[i] != undefined){
+            var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' checked value='" + i + "'><span class='checkmark'></span></label>";
+            partiesContainerList.innerHTML += html;
+        }else{
+            var html = "<label class='checkbox-container'>" + parties[i].name + " (" + parties[i].size + ")<input type='checkbox' value='" + i + "'><span class='checkmark'></span></label>";
+            partiesContainerList.innerHTML += html;
         }
     }
 }
@@ -319,12 +317,17 @@ function SetPartiesList(){
     for(var i = childs.length - 1; i >= 0; i--){
         if(childs[i].checked){
             //add to results list and preset score value
-            if(results[i] == undefined){
+            var isCopy = false;
+            for(var r = 0; r < results.length; r++){
+                if(results[r] != undefined && results[r].name == parties[i].name){
+                    results[r] = parties[i];
+                    results[r].score = 0;
+                    isCopy = true;
+                }
+            }
+            if(!isCopy){
                 results.push(parties[i]);
                 results[results.length - 1].score = 0;
-            }else{
-                results[i] = parties[i];
-                results[i].score = 0;
             }
         }
     }
@@ -337,8 +340,8 @@ function CalculateResults(){
         for(var i = 0; i < answers.length; i++){
             var answer = answers[i];
             for(var r = 0; r < answer.parties.length; r++){
-                var partie = answer.parties[r];
-                if(partie == results[q].name){
+                var party = answer.parties[r];
+                if(party == results[q].name){
                     if(answer.priority == 1){
                         results[q].score += 2;
                     }else{
