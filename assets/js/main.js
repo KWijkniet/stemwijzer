@@ -1,6 +1,6 @@
 //show subjects in console (just a test)
-console.log(subjects);
-console.log(parties);
+// console.log(subjects);
+// console.log(parties);
 
 //Get pages (requires to have "display:none;" as default)
 const introElem = document.getElementById('intro');
@@ -52,6 +52,8 @@ function ShowIntro(){
 
 //start questions
 function StartQuiz(){
+    results = [];
+    answers = [];
     progressBar.style.width = (100 / (subjects.length + 3) * 1) + "%";
     index = 0;
     ShowQuestion();
@@ -313,9 +315,11 @@ function SelectSecularParties(){
 function SetPartiesList(){
     //get parent container
     var childs = partiesContainerList.getElementsByTagName('input');
+    var checkedCount = 0;
     //loop through child objects
     for(var i = childs.length - 1; i >= 0; i--){
         if(childs[i].checked){
+            checkedCount++;
             //add to results list and preset score value
             var isCopy = false;
             for(var r = 0; r < results.length; r++){
@@ -331,6 +335,7 @@ function SetPartiesList(){
             }
         }
     }
+    if(checkedCount <= 2){ return; }
     CalculateResults();
 }
 
